@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:placementor/Data/constantData.dart';
 
 class IntroductionSlider extends StatefulWidget {
-  IntroductionSlider();
+  const IntroductionSlider({super.key});
   @override
   _IntroductionSliderState createState() => _IntroductionSliderState();
 }
@@ -56,17 +56,12 @@ class _IntroductionSliderState extends State<IntroductionSlider> {
 
   @override
   Widget build(BuildContext context) {
-    List<Color> pc = const [
-      Color.fromARGB(255, 233, 142, 109),
-      Color.fromARGB(255, 255, 0, 108),
-      Color.fromARGB(255, 121, 191, 184)
-    ];
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: SafeArea(
         child: Container(
-          color: const Color.fromARGB(255, 233, 152, 0),
+          color: kcextra10,
           child: Padding(
             padding: EdgeInsets.all(width / 25),
             child: Column(
@@ -76,7 +71,7 @@ class _IntroductionSliderState extends State<IntroductionSlider> {
                   '\nWelcome to ',
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      color: const Color.fromRGBO(78, 89, 111, 1),
+                      color: const Color.fromARGB(255, 203, 203, 203),
                       fontFamily: 'Manrope',
                       fontWeight: FontWeight.w500,
                       fontSize: height / 45),
@@ -87,7 +82,7 @@ class _IntroductionSliderState extends State<IntroductionSlider> {
                     'PLACEMENTOR',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                        color: kcextra4,
+                        color: const Color.fromARGB(255, 64, 46, 50),
                         fontFamily: 'Manrope',
                         fontWeight: FontWeight.w900,
                         fontSize: height / 26),
@@ -114,7 +109,7 @@ class _IntroductionSliderState extends State<IntroductionSlider> {
                         height: height * 0.07,
                         width: width * 0.73,
                         decoration: BoxDecoration(
-                            color: kcextra4,
+                            color: const Color.fromARGB(255, 64, 46, 50),
                             borderRadius:
                                 BorderRadius.all(Radius.circular(width / 50))),
                         child: TextButton(
@@ -124,6 +119,26 @@ class _IntroductionSliderState extends State<IntroductionSlider> {
                             //     MaterialPageRoute(
                             //         builder: (context) => LogIn()));
                           },
+                          style: ButtonStyle(
+                            padding:
+                                MaterialStateProperty.resolveWith<EdgeInsets>(
+                                    (Set<MaterialState> states) {
+                              if (states.contains(MaterialState.pressed)) {
+                                return EdgeInsets.all(width / 30);
+                              }
+                              return EdgeInsets
+                                  .zero; // Use the component's default.
+                            }),
+                            shape: MaterialStateProperty.resolveWith<
+                                OutlinedBorder>((Set<MaterialState> states) {
+                              if (states.contains(MaterialState.pressed)) {
+                                return RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.circular(width / 50));
+                              }
+                              return const RoundedRectangleBorder(); // Use the component's default.
+                            }),
+                          ),
                           child: Text(
                             'CONTINUE',
                             textAlign: TextAlign.center,
@@ -132,24 +147,6 @@ class _IntroductionSliderState extends State<IntroductionSlider> {
                                 fontWeight: FontWeight.w700,
                                 fontFamily: 'Manrope',
                                 fontSize: height / 50),
-                          ),
-                          style: ButtonStyle(
-                            padding:
-                                MaterialStateProperty.resolveWith<EdgeInsets>(
-                                    (Set<MaterialState> states) {
-                              if (states.contains(MaterialState.pressed))
-                                return EdgeInsets.all(width / 30);
-                              return EdgeInsets
-                                  .zero; // Use the component's default.
-                            }),
-                            shape: MaterialStateProperty.resolveWith<
-                                OutlinedBorder>((Set<MaterialState> states) {
-                              if (states.contains(MaterialState.pressed))
-                                return RoundedRectangleBorder(
-                                    borderRadius:
-                                        BorderRadius.circular(width / 50));
-                              return RoundedRectangleBorder(); // Use the component's default.
-                            }),
                           ),
                         ))
                   ],
@@ -165,7 +162,7 @@ class _IntroductionSliderState extends State<IntroductionSlider> {
 
 class SlideItem extends StatelessWidget {
   final int index;
-  SlideItem(this.index);
+  const SlideItem(this.index, {super.key});
   @override
   Widget build(BuildContext context) {
     double temp = index.toDouble();
@@ -177,12 +174,9 @@ class SlideItem extends StatelessWidget {
         Padding(
           padding: EdgeInsets.only(
               top: height * 0.1, left: width / 30, right: width / 30),
-          child: Container(
-              child: Center(
-                  child: Image.asset(slideList[index].imageUrl,
-                      width: width,
-                      height: height * 0.3,
-                      fit: BoxFit.fitHeight))),
+          child: Center(
+              child: Image.asset(slideList[index].imageUrl,
+                  width: width, height: height * 0.3, fit: BoxFit.fitHeight)),
         ),
         Container(
           margin: EdgeInsets.only(top: height * 0.05),
@@ -209,16 +203,14 @@ class SlideItem extends StatelessWidget {
         Padding(
           padding: EdgeInsets.symmetric(
               horizontal: width / 15, vertical: height * 0.03),
-          child: Container(
-            child: Text(
-              slideList[index].description,
-              style: TextStyle(
-                  color: Color.fromRGBO(78, 89, 111, 0.5),
-                  fontFamily: 'Manrope',
-                  fontWeight: FontWeight.w500,
-                  fontSize: height / 51),
-              textAlign: TextAlign.center,
-            ),
+          child: Text(
+            slideList[index].description,
+            style: TextStyle(
+                color: const Color.fromRGBO(246, 245, 245, 0.641),
+                fontFamily: 'Manrope',
+                fontWeight: FontWeight.w500,
+                fontSize: height / 51),
+            textAlign: TextAlign.center,
           ),
         )
       ],

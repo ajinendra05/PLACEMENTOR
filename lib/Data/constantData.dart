@@ -18,6 +18,7 @@ class SizeConfig {
   }
 }
 
+Color kcprimary2 = const Color.fromRGBO(255, 173, 110, 1);
 Color kcprimary = const Color.fromARGB(255, 233, 152, 0);
 Color kcsecondry = const Color.fromARGB(255, 206, 74, 67);
 Color kcextra1 = const Color.fromARGB(255, 245, 108, 97);
@@ -28,6 +29,14 @@ Color kcextra4 = const Color.fromARGB(255, 0, 110, 96);
 Color kcextra8 = Color.fromARGB(255, 233, 142, 109);
 Color kcextra6 = Color.fromARGB(255, 255, 0, 108);
 Color kcextra7 = Color.fromARGB(255, 121, 191, 184);
+Color kcextra9 = Color.fromARGB(255, 64, 46, 50);
+Color kcextra10 = const Color.fromARGB(255, 165, 105, 78);
+
+List<Color> pc = const [
+  Color.fromARGB(255, 233, 142, 109),
+  Color.fromARGB(255, 255, 0, 108),
+  Color.fromARGB(255, 121, 191, 184)
+];
 
 TextStyle kslabo = GoogleFonts.slabo27px(
   color: Colors.white,
@@ -71,49 +80,13 @@ TextStyle kScreenText = GoogleFonts.nunito(
   fontWeight: FontWeight.bold,
 );
 
-final lightTheme = ThemeData(
-    scaffoldBackgroundColor: Color.fromARGB(255, 237, 236, 236),
-    primaryColor: const Color.fromARGB(255, 233, 152, 0),
-    cardColor: Color.fromARGB(255, 255, 255, 255),
-    textTheme: TextTheme(
-      headlineMedium: kLora,
-      titleLarge: kGaramond,
-      bodyLarge: kslabo,
-    ),
-    snackBarTheme: SnackBarThemeData(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-    appBarTheme: AppBarTheme(
-        titleTextStyle: kcormant.copyWith(
-      color: Colors.black,
-      fontSize: 24,
-      fontWeight: FontWeight.bold,
-    )));
-
-final darkTheme = ThemeData(
-    scaffoldBackgroundColor: Colors.grey.shade900,
-    colorScheme: const ColorScheme.dark(),
-    cardColor: const Color.fromARGB(255, 74, 73, 73),
-    textTheme: const TextTheme(
-        titleLarge: TextStyle(color: Color.fromARGB(255, 243, 242, 242))),
-    primaryColor: Color.fromARGB(255, 5, 31, 51),
-    snackBarTheme: SnackBarThemeData(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-    appBarTheme: AppBarTheme(
-        titleTextStyle: kcormant.copyWith(
-      color: Colors.black,
-      fontSize: 24,
-      fontWeight: FontWeight.bold,
-    )));
-
-
-
-// TextStyle kUserName = GoogleFonts.pacifico(
-//   color: Colors.black,
-//   fontSize: 20,
-//   // fontWeight: FontWeight.bold,
-// );
-// TextStyle kTabBar = GoogleFonts.gothicA1(
-//   color: Colors.black,
-//   fontSize: 12,
-//   fontWeight: FontWeight.bold,
-// );
+TextStyle kpacifco = GoogleFonts.pacifico(
+  color: Colors.black,
+  fontSize: 20,
+  // fontWeight: FontWeight.bold,
+);
+TextStyle kgothi = GoogleFonts.gothicA1(
+  color: Colors.black,
+  fontSize: 12,
+  fontWeight: FontWeight.bold,
+);
