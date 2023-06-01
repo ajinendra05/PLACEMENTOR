@@ -11,11 +11,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Placementor',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: IntroductionS(),
+      home: IntroductionSlider(),
     );
   }
 }

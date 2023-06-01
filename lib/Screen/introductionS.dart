@@ -1,52 +1,57 @@
+import 'dart:async';
+
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:introduction_screen/introduction_screen.dart';
-import '../Data/constantData.dart';
+import 'package:placementor/Data/constantData.dart';
 
-class IntroductionS extends StatefulWidget {
-  const IntroductionS({super.key});
-
+class IntroductionSlider extends StatefulWidget {
+  IntroductionSlider();
   @override
-  State<IntroductionS> createState() => _IntroductionSState();
+  _IntroductionSliderState createState() => _IntroductionSliderState();
 }
 
-class _IntroductionSState extends State<IntroductionS> {
-  final introKey = GlobalKey<IntroductionScreenState>();
+class _IntroductionSliderState extends State<IntroductionSlider> {
+  int? _currentPage;
+  List visited = List.filled(3, 0);
+  final PageController _pageController = PageController(initialPage: 0);
+  Timer? _timer;
+  final keyIsFirstLoaded = 'is_first_loaded';
 
-  Widget buildImage(String imagePath) {
-    return Center(
-        child: Image.asset(
-      imagePath,
-      width: SizeConfig.screenWidth!,
-    ));
+  @override
+  void initState() {
+    super.initState();
+
+    _currentPage = 0;
+    _timer = Timer.periodic(const Duration(milliseconds: 1800), (Timer timer) {
+      if (_currentPage! < 2) {
+        _currentPage = _currentPage! + 1;
+      }
+      if (visited[_currentPage!] == 0) {
+        _pageController.animateToPage(
+          _currentPage!,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeIn,
+        );
+      }
+    });
   }
 
-  DotsDecorator getDotsDecorator() {
-    return const DotsDecorator(
-      spacing: EdgeInsets.symmetric(horizontal: 2),
-      activeColor: Color.fromARGB(255, 237, 236, 236),
-      color: Colors.grey,
-      activeSize: Size(30, 5),
-      activeShape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(2.0)),
-      ),
-      size: Size(10, 5),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(2.0)),
-      ),
-    );
+  @override
+  void dispose() {
+    super.dispose();
+    _timer!.cancel();
+    _pageController.dispose();
   }
 
-  PageDecoration getPageDecoration(Color pc) {
-    return PageDecoration(
-      imagePadding: EdgeInsets.only(top: SizeConfig.screenHeight! * 0.2),
-      pageColor: pc,
-      bodyPadding: const EdgeInsets.only(top: 8, left: 20, right: 20),
-      titlePadding: const EdgeInsets.only(top: 50),
-      titleTextStyle:
-          kScreenText.copyWith(fontSize: 25, fontWeight: FontWeight.bold),
-      bodyTextStyle:
-          kScreenText.copyWith(fontSize: 20, fontWeight: FontWeight.w500),
-    );
+  _onPageChanged(int index) {
+    setState(() {
+      if (visited[index] == 1) {
+        _currentPage = index;
+      } else {
+        _currentPage = index;
+        visited[index] = 1;
+      }
+    });
   }
 
   @override
@@ -56,47 +61,203 @@ class _IntroductionSState extends State<IntroductionS> {
       Color.fromARGB(255, 255, 0, 108),
       Color.fromARGB(255, 121, 191, 184)
     ];
-    SizeConfig(context);
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: IntroductionScreen(
-          onSkip: () {},
-          hideBottomOnKeyboard: true,
-          key: introKey,
-          pages: [
-            PageViewModel(
-              title: 'WELCOME !!',
-              body: 'We Bridges The Gap bBtween T&P Cell And Students',
-              image: buildImage("assets/Images/1.png"),
-              decoration: getPageDecoration(pc[0]),
+      body: SafeArea(
+        child: Container(
+          color: const Color.fromARGB(255, 233, 152, 0),
+          child: Padding(
+            padding: EdgeInsets.all(width / 25),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Text(
+                  '\nWelcome to ',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: const Color.fromRGBO(78, 89, 111, 1),
+                      fontFamily: 'Manrope',
+                      fontWeight: FontWeight.w500,
+                      fontSize: height / 45),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 9.0),
+                  child: Text(
+                    'PLACEMENTOR',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: kcextra4,
+                        fontFamily: 'Manrope',
+                        fontWeight: FontWeight.w900,
+                        fontSize: height / 26),
+                  ),
+                ),
+                Expanded(
+                  child: Stack(
+                    alignment: AlignmentDirectional.bottomCenter,
+                    children: <Widget>[
+                      PageView.builder(
+                        scrollDirection: Axis.horizontal,
+                        controller: _pageController,
+                        onPageChanged: _onPageChanged,
+                        itemCount: slideList.length,
+                        itemBuilder: (context, i) => SlideItem(i),
+                      ),
+                    ],
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Container(
+                        height: height * 0.07,
+                        width: width * 0.73,
+                        decoration: BoxDecoration(
+                            color: kcextra4,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(width / 50))),
+                        child: TextButton(
+                          onPressed: () {
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => LogIn()));
+                          },
+                          child: Text(
+                            'CONTINUE',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                                fontFamily: 'Manrope',
+                                fontSize: height / 50),
+                          ),
+                          style: ButtonStyle(
+                            padding:
+                                MaterialStateProperty.resolveWith<EdgeInsets>(
+                                    (Set<MaterialState> states) {
+                              if (states.contains(MaterialState.pressed))
+                                return EdgeInsets.all(width / 30);
+                              return EdgeInsets
+                                  .zero; // Use the component's default.
+                            }),
+                            shape: MaterialStateProperty.resolveWith<
+                                OutlinedBorder>((Set<MaterialState> states) {
+                              if (states.contains(MaterialState.pressed))
+                                return RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.circular(width / 50));
+                              return RoundedRectangleBorder(); // Use the component's default.
+                            }),
+                          ),
+                        ))
+                  ],
+                )
+              ],
             ),
-            PageViewModel(
-              title: 'By Student For Student',
-              body: 'Get Good Placement & Related Stuff',
-              image: buildImage("assets/Images/2.png"),
-              decoration: getPageDecoration(pc[1]),
-            ),
-            PageViewModel(
-              title: 'Connect with Us: ',
-              body: 'We All Here To Love, Learn And Earn',
-              image: buildImage("assets/Images/3.png"),
-              decoration: getPageDecoration(pc[2]),
-            ),
-          ],
-          onDone: () {},
-          scrollPhysics: const ClampingScrollPhysics(),
-          showDoneButton: true,
-          showNextButton: true,
-          showSkipButton: true,
-          isBottomSafeArea: true,
-          skip: const Text("Skip",
-              style:
-                  TextStyle(fontWeight: FontWeight.w600, color: Colors.amber)),
-          next: const Icon(Icons.forward),
-          done: const Text("Done",
-              style:
-                  TextStyle(fontWeight: FontWeight.w600, color: Colors.amber)),
-          nextStyle: IconButton.styleFrom(foregroundColor: Colors.amber),
-          dotsDecorator: getDotsDecorator()),
+          ),
+        ),
+      ),
     );
   }
 }
+
+class SlideItem extends StatelessWidget {
+  final int index;
+  SlideItem(this.index);
+  @override
+  Widget build(BuildContext context) {
+    double temp = index.toDouble();
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(
+              top: height * 0.1, left: width / 30, right: width / 30),
+          child: Container(
+              child: Center(
+                  child: Image.asset(slideList[index].imageUrl,
+                      width: width,
+                      height: height * 0.3,
+                      fit: BoxFit.fitHeight))),
+        ),
+        Container(
+          margin: EdgeInsets.only(top: height * 0.05),
+          child: DotsIndicator(
+            dotsCount: slideList.length,
+            position: temp,
+            decorator:
+                DotsDecorator(activeColor: kcextra4, color: Colors.grey[300]!),
+          ),
+        ),
+        // Padding(
+        //   padding: EdgeInsets.symmetric(
+        //       vertical: height / 40, horizontal: width / 9),
+        //   child: Container(
+        //     child: Text(slideList[index].title,
+        //         style: TextStyle(
+        //             color: const Color(0xff082649),
+        //             fontWeight: FontWeight.w700,
+        //             fontFamily: 'Manrope',
+        //             fontSize: height / 38.5),
+        //         textAlign: TextAlign.center),
+        //   ),
+        // ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: width / 15, vertical: height * 0.03),
+          child: Container(
+            child: Text(
+              slideList[index].description,
+              style: TextStyle(
+                  color: Color.fromRGBO(78, 89, 111, 0.5),
+                  fontFamily: 'Manrope',
+                  fontWeight: FontWeight.w500,
+                  fontSize: height / 51),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class Slide {
+  final String imageUrl;
+  final String title;
+  final String description;
+
+  Slide({
+    required this.imageUrl,
+    required this.title,
+    required this.description,
+  });
+}
+
+final slideList = [
+  Slide(
+    imageUrl: 'assets/Images/1.png',
+    title: 'Schedule a Pick up',
+    description: 'We Bridges The Gap Between T&P Cell And Students',
+  ),
+  Slide(
+    imageUrl: 'assets/Images/2.png',
+    title: 'Segregate and Hand Over',
+    description: 'Get Good Placement & Related Stuff',
+  ),
+  Slide(
+    imageUrl: 'assets/Images/3.png',
+    title: 'Cash in!',
+    description: 'Connect With Us: \n We All Here To Love, Learn And Earn',
+  ),
+  // Slide(
+  //   imageUrl: 'assets/Images/1.png',
+  //   title: 'Save the  environment',
+  //   description:
+  //       'Your initiative to consciously segregate and dispose scrap will help the world have a better tomorrow',
+  // ),
+];
