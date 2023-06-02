@@ -58,6 +58,11 @@ TextStyle kGaramond = GoogleFonts.ebGaramond(
   fontSize: 35.0,
   fontWeight: FontWeight.bold,
 );
+TextStyle kmerriweater = GoogleFonts.merriweather(
+  color: Colors.white,
+  fontSize: 35.0,
+  fontWeight: FontWeight.bold,
+);
 TextStyle kPtSerif = GoogleFonts.ptSerif(
   color: Colors.white,
   fontSize: 35.0,
