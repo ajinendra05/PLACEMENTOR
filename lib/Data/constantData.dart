@@ -31,6 +31,7 @@ Color kcextra6 = Color.fromARGB(255, 255, 0, 108);
 Color kcextra7 = Color.fromARGB(255, 121, 191, 184);
 Color kcextra9 = Color.fromARGB(255, 64, 46, 50);
 Color kcextra10 = const Color.fromARGB(255, 165, 105, 78);
+Color kcextra11 = const Color.fromARGB(255, 150, 113, 84);
 
 List<Color> pc = const [
   Color.fromARGB(255, 233, 142, 109),

@@ -1,10 +1,13 @@
 import 'dart:math';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:placementor/Data/constantData.dart';
 
+import '../Data/Auth.dart';
 import 'forgetPassword.dart';
+import 'homeScreen.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -20,6 +23,21 @@ class _LoginPageState extends State<LoginPage> {
   // String email;
   // String password;
   final _formKey = GlobalKey<FormState>();
+
+  void signIN() async {
+    User user;
+    try {
+      user = await Auth().signIn(
+          email: controllers[0].text.trim(), password: controllers[1].text);
+      print('Signed in:' + user.uid);
+
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+    } catch (e) {
+      SnackBar(
+        content: Text("$e"),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
           Container(
-            height: height * 0.6,
+            height: height * 0.8,
             width: width,
             // color: const Color.fromARGB(255, 255, 250, 230),
             decoration: BoxDecoration(
@@ -188,7 +206,9 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius:
                             BorderRadius.all(Radius.circular(width / 50))),
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        signIN();
+                      },
                       style: ButtonStyle(
                         padding: MaterialStateProperty.resolveWith<EdgeInsets>(
                             (Set<MaterialState> states) {

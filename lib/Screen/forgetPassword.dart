@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:placementor/Data/Auth.dart';
 import 'package:placementor/Data/constantData.dart';
 import 'package:placementor/Screen/login.dart';
 
@@ -39,7 +39,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
             ),
           ),
           Container(
-            height: height * 0.6,
+            height: height * 0.8,
             width: width,
             // color: const Color.fromARGB(255, 255, 250, 230),
             decoration: BoxDecoration(
@@ -76,7 +76,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                 Padding(
                     padding: EdgeInsets.only(
                       left: 0,
-                      top: height * 0.01,
+                      top: height * 0.05,
                     ),
                     child: SizedBox(
                         height: height * 0.12,
@@ -204,7 +204,17 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                         borderRadius:
                             BorderRadius.all(Radius.circular(width / 50))),
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        // Auth().changePassword(email: controllers[0].text);
+                        try {
+                          Auth().changePassword(
+                              email: controllers[0].text.trim());
+                        } catch (e) {
+                          SnackBar(
+                            content: Text("$e"),
+                          );
+                        }
+                      },
                       style: ButtonStyle(
                         padding: MaterialStateProperty.resolveWith<EdgeInsets>(
                             (Set<MaterialState> states) {
