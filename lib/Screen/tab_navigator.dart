@@ -19,7 +19,7 @@ class TabNavigator extends StatelessWidget {
     else if (tabItem == "page2")
       childd = NotificationScreen();
     else if (tabItem == "page3")
-      childd = MessageScreen();
+      childd = Resources();
     else if (tabItem == "page4") childd = MyProfile();
     return Navigator(
       key: navigatorKey,
